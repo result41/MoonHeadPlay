@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>¹®¸Ó¸®</title>
+    <style>
+        body {
+            position: relative;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            background:#bde6f2;
+        }
+        .center {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+        .divs {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+        }
+        .divs div {
+            background: url('./img/btn.png');
+            background-size: 100%;
+            width: 70px;
+            height: 70px;
+        }
+        #clock {
+            font-family:consolas;
+            font-size: 10em;
+            color: #fff;
+            margin-top: -350px;
+        }
+        #am{
+            font-family:consolas;
+            font-size: 5em;
+            color: #fff;
+            margin-left:500px;
+        }
+        #image {
+            position:fixed;
+            bottom:0;
+            width: 483px;
+            height: 383px;
+            background: url('./img/moon.png');
+        }
+    </style>
+</head>
+<body>
+    <audio id="audio1" src="./sound/1.mp3" preload="auto"></audio>
+    <audio id="audio2" src="./sound/2.mp3" preload="auto"></audio>
+    <audio id="audio3" src="./sound/3.mp3" preload="auto"></audio>
+    <div class="center">
+        <div id="clock"></div>
+        <div id="am"></div>
+        <div id="image" class="divs">
+            <div onmousedown="play(1)" onmouseup="end(1)" style="margin-left:110px; transform: rotate(-30deg); margin-top:35px;"></div>
+            <div onmousedown="play(2)" onmouseup="end(2)" style="margin-left:-150px; transform: rotate(20deg);"></div>
+            <div onmousedown="play(3)" onmouseup="end(3)" style="margin-left:-170px; transform: rotate(60deg); margin-top:60px;"></div>
+        </div>
+    </div>
+    <script>
+        let endDelay;
+        function updateTime() {
+            const now = new Date();
+            var hours = now.getHours();
+            var minutes = now.getMinutes();
+            var seconds = now.getSeconds();
+
+            var am='AM';
+            if(hours>12){                    
+                am='PM';
+                hours-=12;
+            }
+            if(hours<10){
+                hours="0"+hours;
+            }
+            if(minutes<10){
+                minutes="0"+minutes;
+            }
+            if(seconds<10){
+                seconds="0"+seconds;
+            }
+            document.getElementById('am').textContent=am;
+
+            document.getElementById('clock').textContent = `${hours}:${minutes}:${seconds}`;            
+        }
+        setInterval(updateTime, 1000);
+        updateTime();
+        
+        function play(a) {
+            document.getElementById("audio"+a).play();
+        }
+
+        function end(a){
+            endDelay = setInterval(endPlay, 100, a);
+        }
+
+        function endPlay(a){
+            clearInterval(endDelay);
+            var audio = document.getElementById("audio"+a);
+            audio.pause();
+            audio.currentTime = 0;
+        }
+    </script>
+</body>
+</html>
