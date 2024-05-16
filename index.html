@@ -92,7 +92,8 @@
         updateTime();
         
         function play(a) {
-            document.getElementById("audio"+a).play();
+            document.getElementById("audio"+a).volume = 0.01;
+            document.getElementById("audio"+a).play();            
         }
 
         function end(a){
